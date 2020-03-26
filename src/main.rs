@@ -33,6 +33,9 @@ impl Interpreter {
         let content = fs::read_to_string(path)
             .expect("Error reading the file");
         self.run(content);
+        if self.has_error {
+            std::process::exit(65);
+        }
     }
     
     fn run_prompt(&mut self) {
@@ -48,6 +51,8 @@ impl Interpreter {
                 break;
             }
             self.run(input);
+            //reset flag to not kill user_session in case of a mistake
+            self.has_error = false; 
         }
     }
     

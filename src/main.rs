@@ -33,6 +33,15 @@ fn run(tokens: String) {
     }
 }
 
+fn error(line: i32, message: String) {
+    report(line, String::from(""), message);
+}
+
+fn report(line: i32, location: String, message: String) {
+    println!("line: {} Error {}: {}", line, location, message);
+    let had_error = true;
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() > 2 {

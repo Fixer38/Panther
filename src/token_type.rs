@@ -1,4 +1,7 @@
+#[derive(Debug)]
 pub enum TokenType {  
+    // use for default derive macro as it's not implemented for enums yet
+    DEFAULT,
     // Single-character tokens
     LEFT_PAREN,
     RIGHT_PAREN,
@@ -46,4 +49,8 @@ pub enum TokenType {
 
     // End of Line
     EOF
+}
+
+impl Default for TokenType {
+    fn default() -> Self { TokenType::DEFAULT }
 }

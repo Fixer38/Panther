@@ -3,6 +3,8 @@ use std::path::Path;
 use std::fs;
 use std::io;
 use std::io::Write;
+pub mod token;
+pub mod token_type;
 
 struct Interpreter {
     has_error: bool

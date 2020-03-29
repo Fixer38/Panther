@@ -1,11 +1,11 @@
 use super::token_type::TokenType;
 
 #[derive(Default, Debug)]
-struct Token<T> {
-    type_token: TokenType,
-    lexeme: String,
-    literal: Option<T>,
-    line: i32,
+pub struct Token<T> {
+    pub type_token: TokenType,
+    pub lexeme: String,
+    pub literal: Option<T>,
+    pub line: i32,
 }
 
 impl<T> Token<T> {
@@ -20,7 +20,7 @@ impl<T> Token<T> {
 
 }
 
-trait ToStringTrait {
+pub trait ToStringTrait {
     fn to_string(&mut self) -> String;
 }
 
@@ -41,3 +41,14 @@ impl ToStringTrait for Token<String> {
         format!("With String Literal: {:?}, {}, {:?}", self.type_token, self.lexeme, self.literal)
     }
 }
+
+
+//#[cfg(test)]
+//mod tests {
+//    use super::*;
+//
+//    #[test]
+//    fn test_create_token() {
+//        token = Token
+//    }
+//}

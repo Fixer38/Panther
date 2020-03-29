@@ -5,6 +5,7 @@ use std::io;
 use std::io::Write;
 pub mod token;
 pub mod token_type;
+pub mod scanner;
 
 struct Interpreter {
     has_error: bool

@@ -2,16 +2,16 @@ use super::token_type::TokenType;
 
 #[derive(Default, Debug)]
 pub struct Token<T> {
-    pub type_token: TokenType,
+    pub token_type: TokenType,
     pub lexeme: String,
     pub literal: Option<T>,
-    pub line: i32,
+    pub line: usize,
 }
 
 impl<T> Token<T> {
     fn new() -> Token<T> {
         Token {
-            type_token: Default::default(),
+            token_type: Default::default(),
             lexeme: Default::default(),
             literal: None,
             line: Default::default(),
@@ -26,19 +26,19 @@ pub trait ToStringTrait {
 
 impl ToStringTrait for Token<i32> {
     fn to_string(&mut self) -> String {
-        format!("With decimal literal: {:?}, {}, {:?}", self.type_token, self.lexeme, self.literal)
+        format!("With decimal literal: {:?}, {}, {:?}", self.token_type, self.lexeme, self.literal)
     }
 }
 
 impl ToStringTrait for Token<f32> {
     fn to_string(&mut self) -> String {
-        format!("With floating point literal: {:?}, {}, {:?}", self.type_token, self.lexeme, self.literal)
+        format!("With floating point literal: {:?}, {}, {:?}", self.token_type, self.lexeme, self.literal)
     }
 }
 
 impl ToStringTrait for Token<String> {
     fn to_string(&mut self) -> String {
-        format!("With String Literal: {:?}, {}, {:?}", self.type_token, self.lexeme, self.literal)
+        format!("With String Literal: {:?}, {}, {:?}", self.token_type, self.lexeme, self.literal)
     }
 }
 

@@ -62,11 +62,11 @@ impl Interpreter {
         }
     }
     
-    pub fn error(&mut self, line: i32, message: String) {
+    pub fn error(&mut self, line: usize, message: String) {
         self.report(line, String::from(""), message);
     }
     
-    pub fn report(&mut self, line: i32, location: String, message: String) {
+    pub fn report(&mut self, line: usize, location: String, message: String) {
         println!("line: {} Error {}: {}", line, location, message);
         self.has_error = true;
     }

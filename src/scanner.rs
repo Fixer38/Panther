@@ -1,4 +1,5 @@
 use super::token::Token;
+use super::interpreter::Interpreter;
 use super::token_type::TokenType;
 
 pub struct Scanner<T> {
@@ -6,17 +7,19 @@ pub struct Scanner<T> {
     tokens: Vec<Token<T>>,
     start: usize,
     current: usize,
-    line: usize
+    line: usize,
+    interpreter: Interpreter
 }
 
 impl<T> Scanner<T> {
-    fn new(source: String) -> Scanner<T> {
+    fn new(source: String, interpreter: Interpreter) -> Scanner<T> {
         Scanner {
             source,
             tokens: vec![],
             start: 0,
             current: 0,
             line: 0,
+            interpreter
         }
     }
 
@@ -44,7 +47,7 @@ impl<T> Scanner<T> {
             "+" => self.add_token(TokenType::PLUS),
             ";" => self.add_token(TokenType::SEMICOLON),
             "*" => self.add_token(TokenType::STAR),
-            _ => println!("Token Type not recoginized"),
+            _ => self.interpreter.error(self.line, String::from("Unexpected Character")),
         }
     }
 

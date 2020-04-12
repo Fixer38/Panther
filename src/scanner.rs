@@ -1,9 +1,10 @@
 use super::token::Token;
 use super::interpreter::Interpreter;
 use super::token_type::TokenType;
+use std::str;
 
 pub struct Scanner<T> {
-    source: String,
+    source: Vec<u8>,
     tokens: Vec<Token<T>>,
     start: usize,
     current: usize,
@@ -14,7 +15,7 @@ pub struct Scanner<T> {
 impl<T> Scanner<T> {
     fn new(source: String, interpreter: Interpreter) -> Scanner<T> {
         Scanner {
-            source,
+            source: source.into_bytes(),
             tokens: vec![],
             start: 0,
             current: 0,
@@ -25,13 +26,28 @@ impl<T> Scanner<T> {
 
     fn advance(&mut self) -> String {
         self.current += 1;
-        let source_vec = self.source.chars().nth(self.current - 1).unwrap();
-        source_vec.to_string()
+        let current_char = self.source[self.current - 1];
+        current_char.to_string()
+    }
+
+    fn source_to_string(&self, source: &[u8]) -> String {
+        str::from_utf8(&source).unwrap().to_string()
     }
 
     fn add_token(&mut self, token_type: TokenType) {
         let text = &self.source[self.start..self.current];
-        self.tokens.push(Token { token_type, lexeme: text.to_string(), literal: None, line: self.line });
+        self.tokens.push(Token { token_type, lexeme: self.source_to_string(text), literal: None, line: self.line });
+    }
+
+    fn match_token(&mut self, expected_char: &str) -> bool {
+        if self.is_at_end() {
+            return false
+        }
+        if self.source[self.current - 1] != expected_char.as_bytes()[0] {
+            return false
+        }
+        self.current += 1;
+        return true
     }
 
     fn scan_token(&mut self) {

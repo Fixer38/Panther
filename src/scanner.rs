@@ -35,7 +35,7 @@ impl<T> Scanner<T> {
     // method to advance of one char in the source code returning the current char
     fn advance(&mut self) -> String {
         self.current += 1;
-        let current_char = self.source[self.current];
+        let current_char = self.source[self.current] as char;
         current_char.to_string()
     }
 

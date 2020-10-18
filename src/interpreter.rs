@@ -3,9 +3,16 @@ use std::path::Path;
 use std::fs;
 use std::io;
 use std::io::Write;
+use std::cmp::Ordering;
 
 pub struct Interpreter {
     has_error: bool
+}
+
+impl Default for Interpreter {
+    fn default() -> Self {
+        Interpreter::new()
+    }
 }
 
 impl Interpreter {
@@ -17,18 +24,14 @@ impl Interpreter {
 
     pub fn get_run_type(&mut self) {
         let args: Vec<String> = env::args().collect();
-        if args.len() > 2 {
-            println!("Usage panther [file]");
-        }
-        else if args.len() == 2 {
-            self.run_file(&args[1]);
-        }
-        else {
-            self.run_prompt();
+        match args.len().cmp(&2) {
+            Ordering::Greater => println!("Usage panther [file]"),
+            Ordering::Equal => self.run_file(&args[1]),
+            Ordering::Less => self.run_prompt(),
         }
     }
 
-    pub fn run_file(&mut self, filename: &String) {
+    pub fn run_file(&mut self, filename: &str) {
         let path = Path::new(&filename);
         let content = fs::read_to_string(path)
             .expect("Error reading the file");
@@ -42,7 +45,7 @@ impl Interpreter {
         let stdin = io::stdin();
         let mut stdout = io::stdout();
         loop {
-            writeln!(&mut stdout, "> ").expect("Failed to get stdout");
+            write!(&mut stdout, "> ").expect("Failed to get stdout");
             stdout.flush().expect("Failed to flush the stdout content");
     
             let mut input = String::new();

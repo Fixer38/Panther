@@ -62,7 +62,7 @@ impl<T> Scanner<T> {
             return false
         }
         self.current += 1;
-        return true
+        true
     }
 
     // method to scan tokens in the source code at the current char
